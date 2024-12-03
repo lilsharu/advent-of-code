@@ -4,7 +4,7 @@
 (defun parse-integer-list (list)
   (map 'list (lambda (x) (parse-integer x)) list))
 
-(let* ((lines (uiop:read-file-lines "day-01a.input"))
+(let* ((lines (uiop:read-file-lines "day-01.input"))
        (values-str (map 'list (lambda (x) (split-by-space x)) lines))
        (values-num (map 'list (lambda (x) (parse-integer-list x)) values-str))
        (curr 0)

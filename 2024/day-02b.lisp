@@ -65,7 +65,7 @@
     (try-making-valid values)))
 
 (defun count-valid-reports ()
-    (let* ((input (uiop:read-file-lines "day-02a.input"))
+    (let* ((input (uiop:read-file-lines "day-02.input"))
            (validities (map 'list (lambda (x) (valid-report x)) input)))
       (reduce (lambda (total next) (if next (+ total 1) total)) validities :initial-value 0)))
 
