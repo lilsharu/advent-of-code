@@ -44,8 +44,7 @@ main = do
     [filename] -> do
       contents <- readFile filename
       let inputLines = filter (not . null) (lines contents)
-      let maybeParsedLines = traverse parse inputLines
-      case maybeParsedLines of
+      case traverse parse inputLines of
         Nothing -> putStrLn "Invalid Input File"
         Just parsedLines -> do
           let reduceFn (position, count) direction = (applyTurn position direction, count + countZeroPasses position direction)
