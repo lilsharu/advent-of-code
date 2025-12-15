@@ -19,12 +19,11 @@ parse s =
           Just (R n)
     _ -> Nothing
 
-applyTurn :: Int -> Maybe Direction -> Int
+applyTurn :: Int -> Direction -> Int
 applyTurn start turn =
   case turn of
-    Just (L times) -> mod (start - times) lockSize
-    Just (R times) -> mod (start + times) lockSize
-    Nothing -> start
+    L times -> (start - times) `mod` lockSize
+    R times -> (start + times) `mod` lockSize
 
 countZeros :: [Int] -> Int
 countZeros = length . filter (== 0)
@@ -35,9 +34,12 @@ main = do
   case args of
     [filename] -> do
       contents <- readFile filename
-      let lines' = lines contents
-      let parsed_lines = map parse lines'
-      let positions = tail $ scanl applyTurn startIndex parsed_lines
-      let count = countZeros positions
-      putStrLn ("Count: " ++ show count)
+      let inputLines = filter (not . null) (lines contents)
+      let maybeParsedLines = traverse parse inputLines
+      case maybeParsedLines of
+        Nothing -> putStrLn "Invalid Input File"
+        Just parsedLines -> do
+          let positions = tail $ scanl applyTurn startIndex parsedLines
+          let count = countZeros positions
+          putStrLn ("Count: " ++ show count)
     _ -> putStrLn "Usage: day-01a <filename>"
